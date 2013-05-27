@@ -1,0 +1,8 @@
+<h1>Here are your tweets, keep em coming!</h1>
+<div class="tweets">
+  <ol>
+  <%@tweets.each do |tweet|%>
+    <li><%=tweet.tweet%></li>
+    <% end %>
+  </ol>
+</div>

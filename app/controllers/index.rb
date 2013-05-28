@@ -7,19 +7,30 @@ get '/twitter' do
   redirect to("/#{@username.username}")
 end
 
-# get '/:username' do
-#   @tweets = Twitter.user_timeline(params[:username], :count => 10)
-#   erb :tweets
-# end
+get '/:username/fetch' do
+  @username = User.find_or_create_by_username(params[:username])
+  @username.fetch_tweets!
+
+  # @username.tweets.order("created_at DESC").limit(10).to_json
+  @tweets = @username.tweets.order("created_at DESC").limit(10)
+  erb :_tweet_list, :layout => false
+end
 
 get '/:username' do
   @user = User.find_by_username(params[:username])
-  p @user
   if @user.tweets.empty? || @user.tweets_stale?
+     @loading = true
      @user.fetch_tweets!
-  end
+    # set var loading = true
+    erb :tweets
+  else
+    @loading = false
 
-  @tweets = @user.tweets.order("created_at DESC").limit(10)
-  erb :tweets
+    @tweets = @user.tweets.order("created_at DESC").limit(10)
+    erb :tweets
+  end
 end
-  
+
+
+
+     

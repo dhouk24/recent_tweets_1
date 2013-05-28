@@ -2,10 +2,11 @@ class User < ActiveRecord::Base
   has_many :tweets
 
   def tweets_stale?
-    current_time = Time.now
-    last_tweet_pull = Tweet.where(:user_id => id).last.created_at
-
-    ((current_time - last_tweet_pull)/60) > 1
+    last_tweet_pull = Tweet.where(:user_id => id).order("created_at DESC").first.created_at
+    puts last_tweet_pull
+    puts Time.now
+    puts ((Time.now - last_tweet_pull)/60)
+    ((Time.now - last_tweet_pull)/60/60) < 15
   end
 
 

@@ -1,8 +1,16 @@
 <h1>Here are your tweets, keep em coming!</h1>
 <div class="tweets">
+
+<!-- if loading is true -->
+<% if @loading == true%>
+  <div id="load"><p id="user"><%=@user.username%></p><!-- show loading --></div>
+<!-- else -->
+<% else %>
+  <!-- load tweets -->
   <ol>
-  <%@tweets.each do |tweet|%>
-    <li><%=tweet.tweet%></li>
+    <%@tweets.each do |tweet|%>
+      <li><%=tweet.tweet%></li>
     <% end %>
   </ol>
+<% end %>
 </div>
